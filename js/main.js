@@ -38,15 +38,15 @@ document.forms.fileForm.addEventListener("submit", async (event) => {
         result.innerText = JSON.stringify(json);
         result.classList.add('text-success');
         resultImg.src = json.secure_url;
+
+        return json;
     })
-    .catch((error) => {
-        result.innerText = `Failed: ${error}`;
-        result.classList.add('text-danger');
-    }).finally((json)=>{
+    .then(json => {
         const newForm = new FormData();
 
-        newForm.append('json', JSON.stringify(json));
-        
+        newForm.set('name', 'upload-form')
+        newForm.set('data', JSON.stringify(json));
+
         fetch("/", {
                 body: newForm,
                 method: "POST",
@@ -57,6 +57,9 @@ document.forms.fileForm.addEventListener("submit", async (event) => {
             .catch((error) => {
                 console.log('error');
             });
+    })
+    .catch((error) => {
+        console.log('error!!', error);
     });
 
     /** fetch("/", {
