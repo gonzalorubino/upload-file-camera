@@ -14,7 +14,7 @@ upload.addEventListener("change", (ev) => {
     makePreview(ev);
 });
 
-document.forms.fileForm.addEventListener("submit", (event) => {
+document.forms.fileForm.addEventListener("submit", async (event) => {
     event.preventDefault();
     const result = document.querySelector(".result");
     const resultImg = document.getElementById("imgResult");
