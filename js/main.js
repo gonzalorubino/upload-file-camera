@@ -37,7 +37,7 @@ document.forms.fileForm.addEventListener("submit", async (event) => {
     .then((json) => {
         result.innerText = JSON.stringify(json);
         result.classList.add('text-success');
-        resultImg.src = json.data.secure_url;
+        resultImg.src = json.secure_url;
     })
     .catch((error) => {
         result.innerText = `Failed: ${error}`;
