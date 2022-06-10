@@ -42,7 +42,22 @@ document.forms.fileForm.addEventListener("submit", async (event) => {
     .catch((error) => {
         result.innerText = `Failed: ${error}`;
         result.classList.add('text-danger');
-    });;
+    }).finally((json)=>{
+        const newForm = new FormData();
+
+        newForm.append('json', JSON.stringify(json));
+        
+        fetch("/", {
+                body: newForm,
+                method: "POST",
+            })
+            .then(() => {
+                console.log('success');
+            })
+            .catch((error) => {
+                console.log('error');
+            });
+    });
 
     /** fetch("/", {
             body: new FormData(event.target),
