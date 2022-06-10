@@ -22,7 +22,7 @@ document.forms.fileForm.addEventListener("submit", async (event) => {
     // basado en : https://spacejelly.dev/posts/how-to-programmatically-upload-images-to-cloudinary-in-react-next-js/
     const formData = new FormData();
 
-    for (const file of event.target.files) {
+    for (const file of event.target[1].files) {
         formData.append('file', file);
     }
 
@@ -35,14 +35,14 @@ document.forms.fileForm.addEventListener("submit", async (event) => {
         body: formData
     }).then(r => r.json())
     .then((json) => {
-            result.innerText = JSON.stringify(json);
-            result.classList.add('text-success');
-            resultImg.src = json.data.secure_url;
-        })
-        .catch((error) => {
-            result.innerText = `Failed: ${error}`;
-            result.classList.add('text-danger');
-        });;
+        result.innerText = JSON.stringify(json);
+        result.classList.add('text-success');
+        resultImg.src = json.data.secure_url;
+    })
+    .catch((error) => {
+        result.innerText = `Failed: ${error}`;
+        result.classList.add('text-danger');
+    });;
 
     /** fetch("/", {
             body: new FormData(event.target),
