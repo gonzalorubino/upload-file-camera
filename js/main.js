@@ -45,9 +45,13 @@ document.forms.fileForm.addEventListener("submit", async (event) => {
         const newForm = new FormData();
 
         newForm.set('name', 'upload-form')
+        newForm.set('data-netlify', 'true');
         newForm.set('data', JSON.stringify(json));
 
-        fetch("/", {
+        await fetch("/", {
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
                 body: newForm,
                 method: "POST",
             })
