@@ -17,8 +17,34 @@ upload.addEventListener("change", (ev) => {
 document.forms.fileForm.addEventListener("submit", (event) => {
     event.preventDefault();
     const result = document.querySelector(".result");
+    const resultImg = document.getElementById("imgResult");
+    
+    // basado en : https://spacejelly.dev/posts/how-to-programmatically-upload-images-to-cloudinary-in-react-next-js/
+    const formData = new FormData();
 
-    fetch("/", {
+    for (const file of event.target.files) {
+        formData.append('file', file);
+    }
+
+    // Debe ser : 'upload_preset' , 'MI PRESET'
+    formData.append('upload_preset', 'da-vinci-uploads');
+
+    // debe ser https://api.cloudinary.com/v1_1/[TU NOMBRE DE CLOUDINARY]/image/upload
+    const data = await fetch('https://api.cloudinary.com/v1_1/dgsdmtyxf/image/upload', {
+        method: 'POST',
+        body: formData
+    }).then(r => r.json())
+    .then((json) => {
+            result.innerText = JSON.stringify(json);
+            result.classList.add('text-success');
+            resultImg.src = json.data.secure_url;
+        })
+        .catch((error) => {
+            result.innerText = `Failed: ${error}`;
+            result.classList.add('text-danger');
+        });;
+
+    /** fetch("/", {
             body: new FormData(event.target),
             method: "POST",
         })
@@ -30,4 +56,5 @@ document.forms.fileForm.addEventListener("submit", (event) => {
             result.innerText = `Failed: ${error}`;
             result.classList.add('text-danger');
         });
+    */
 });
